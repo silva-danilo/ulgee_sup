@@ -1,6 +1,6 @@
 
-# source ulgee
-#source("R/ulgee.R")
+# load ulgee package
+library(ulgee)
 
 # prep. simulation
 beta <- c(-3, 6)
