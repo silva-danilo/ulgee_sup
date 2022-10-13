@@ -1,9 +1,9 @@
 
-# source ulgee
-#source("R/ulgee.R")
+# load ulgee package
+library(ulgee)
 
 # prep. 2010
-data_2010 <- readxl::read_excel("data/censo/censo_2010.xlsx")
+data_2010 <- readxl::read_excel("application/data/censo_2010.xlsx")
 data_2010 <- data_2010[-c(1,29:31),]
 names(data_2010) <- c("state", "gini", "pwater", "life", "peletro", "psewage", "hdi", "income")
 data_2010$time <- 3
@@ -11,7 +11,7 @@ data_2010$id <- 1:nrow(data_2010)
 data_2010$psewage <- data_2010$psewage/100
 
 # prep. 2000
-data_2000 <- readxl::read_excel("data/censo/censo_2000.xlsx")
+data_2000 <- readxl::read_excel("application/data/censo_2000.xlsx")
 data_2000 <- data_2000[-c(1,29:31),]
 names(data_2000) <- c("state", "gini", "pwater", "life", "peletro", "psewage", "hdi", "income")
 data_2000$time <- 2
@@ -19,7 +19,7 @@ data_2000$id <- 1:nrow(data_2000)
 data_2000$psewage <- data_2000$psewage/100
 
 # prep. 1991
-data_1991 <- readxl::read_excel("data/censo/censo_1991.xlsx")
+data_1991 <- readxl::read_excel("application/data/censo_1991.xlsx")
 data_1991 <- data_1991[-c(1,29:31),]
 names(data_1991) <- c("state", "gini", "pwater", "life", "peletro", "psewage", "hdi", "income")
 data_1991$time <- 1
