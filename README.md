@@ -1,3 +1,3 @@
 # ulgee_sup
 
-This repository contains R scripts and dataset used in the simulation and application of the the submit paper "Analysis of correlated unit-Lindley data based on estimating equations". Two examples with different correlation structures are also available, to use them it is necessary to install the package available at https://github.com/silva-danilo/ulgee.
+This repository contains R scripts and dataset used in the simulation and application of the the submit paper "Analysis of correlated unit-Lindley data based on estimating equations". To use them it is necessary to install the package available at https://github.com/silva-danilo/ulgee. Two examples with different types of correlation structures are also available.
