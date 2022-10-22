@@ -1,4 +1,3 @@
-
 # load ulgee package
 library(ulgee)
 
@@ -32,6 +31,3 @@ round(fit_1$rho, 2)
 # diagnostic
 diag_quant(fit_1, data[,-c(3,4)], 100, n=0)
 diag_quant(fit_1, data[,-c(3,4)], 100, T, T, n=0)
-
-# sensitivity
-sens_conf(fit_1, 4, 4, 4, 4)
