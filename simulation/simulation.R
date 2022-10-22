@@ -1,4 +1,3 @@
-
 # load ulgee package
 library(ulgee)
 
