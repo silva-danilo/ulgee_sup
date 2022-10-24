@@ -86,8 +86,9 @@ for(i in 1:length(corr_type)){
 round(table,2)
 
 # diagnostic 
+set.seed(3489)
 diag_quant(fit_1, X, 100, n=1)
-diag_quant(fit_1, X, 100, T, T, n=0)
+diag_quant(fit_1, X, 200, T, T, n=0)
 
 # sensitivity 
 sens_conf(fit_1, 4, 1, 4, 1)
@@ -97,7 +98,7 @@ par(mar=c(5.5,5.5,2,2), mfrow=c(1,1))
 colors <- c("red", "green", "blue")
 plot(data$gini, LaplacesDemon::logit(data$psewage), pch=16, col=colors[data$time], ylab="logit(psewage)", xlab="gini", cex.lab=1.5, cex.axis=1.2, lwd=2, xlim=c(0.48,0.68))
 legend(0.49, -0.6, c("1991", "2000", "2010"), col=colors, cex=1, lwd=2, bty="n")
-identify(x=data$gini, y=LaplacesDemon::logit(data$psewage), label=paste(id, time, sep=","), n=3, cex=1.2)
+identify(x=data$gini, y=LaplacesDemon::logit(data$psewage), label=paste(paste("(",paste(id, time, sep=","), sep=""),")",sep=""), n=3, cex=1.2)
 
 # prep position 
 pos <- as.numeric(data$id==3 & data$time==1)
