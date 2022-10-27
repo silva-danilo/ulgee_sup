@@ -1,4 +1,4 @@
-# confidence band
+# confidence band for fit_1
 par(mar=c(5.5,5.5,2,2), mfrow=c(1,3))
 
 # 1991
