@@ -6,61 +6,75 @@ data_2010 <- readxl::read_excel("data/censo/censo_2010.xlsx")
 data_2010 <- data_2010[-c(1,29:31),]
 names(data_2010) <- c("state", "gini", "pwater", "life", "peletro", "psewage", "hdi", "income")
 data_2010$time <- 3
+data_2010$year <- 2010
 data_2010$id <- 1:nrow(data_2010)
 data_2010$psewage <- data_2010$psewage/100
+data_2010$state <- c("AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
+                     "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO")
 
 # prep. 2000
 data_2000 <- readxl::read_excel("data/censo/censo_2000.xlsx")
 data_2000 <- data_2000[-c(1,29:31),]
 names(data_2000) <- c("state", "gini", "pwater", "life", "peletro", "psewage", "hdi", "income")
 data_2000$time <- 2
+data_2000$year <- 2000
 data_2000$id <- 1:nrow(data_2000)
 data_2000$psewage <- data_2000$psewage/100
+data_2000$state <- c("AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
+                     "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO")
 
 # prep. 1991
 data_1991 <- readxl::read_excel("data/censo/censo_1991.xlsx")
 data_1991 <- data_1991[-c(1,29:31),]
 names(data_1991) <- c("state", "gini", "pwater", "life", "peletro", "psewage", "hdi", "income")
 data_1991$time <- 1
+data_1991$year <- 1991
 data_1991$id <- 1:nrow(data_1991)
 data_1991$psewage <- data_1991$psewage/100
+data_1991$state <- c("AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
+                     "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO")
 
 # prep. data
-data <- rbind(data_2010, data_2000, data_1991)
+data <- rbind(data_2010, data_2000, data_1991); data$ginic <- 0
+data$ginic[data$id %in% data_1991$id[data_1991$gini >= 0.55 & data_1991$gini < 0.62]] <- 1
+data$ginic[data$id %in% data_1991$id[data_1991$gini >= 0.62 & data_1991$gini < 0.64]] <- 2
+data$ginic[data$id %in% data_1991$id[data_1991$gini >= 0.64 & data_1991$gini <= 0.67]] <- 3
 
 # num. clusters
 table(table(data$id))
+table(data$ginic)
 
 # summary
 FSA::Summarize(psewage ~ time, data)
 
 # box-plot robust
 par(mar=c(5.5,5.5,2,2), mfrow=c(1,2))
-boxplot(split(LaplacesDemon::logit(data$psewage), data$time), ylab="logit(psewage)", xlab="time", pch=16, col="white", cex.lab=1.5, cex.axis=1.2, names=c("1991", "2000", "2010"))
+boxplot(LaplacesDemon::logit(data$psewage) ~ ginic + time, data, at=c(1:3,5:7,9:11), col=rainbow(3, s=0.65), ylab="logit(psewage)", xlab="time", pch=16, cex.lab=1.5, cex.axis=1.2, ylim=c(-5.3,0.8), xaxt="n")
+legend("top", fill=rainbow(3, s=0.65), legend=c("[0.55,0.62)", "[0.62,0.64)", "[0.64,0.67]"), cex=0.8, bty="n", title="Gini in 1991:", horiz=T, inset=c(0,.03))
+text(seq(1, 11, by=1), par("usr")[3]-0.5, xpd=TRUE, labels=c("", "1991", "", "", "", "2000", "", "", "", "2010"), cex=1.2)
 
 # dispersion plot
-colors <- c("red", "green", "blue")
-plot(data$gini, LaplacesDemon::logit(data$psewage), pch=16, col=colors[data$time], ylab="logit(psewage)", xlab="gini", cex.lab=1.5, cex.axis=1.2, lwd=2, xlim=c(0.45,0.68))
-legend(0.45, -0.6, c("1991", "2000", "2010"), col=colors, cex=0.8, lwd=2, bty="n")
+colors <- rainbow(3, s=0.65)
+plot(data$gini, LaplacesDemon::logit(data$psewage), pch=16, col=colors[time], ylab="logit(psewage)", xlab="gini", cex.lab=1.5, cex.axis=1.2, lwd=2, ylim=c(-5.3,0.8))
+legend("top", col=colors, legend=c("1991", "2000", "2010"), cex=0.8, bty="n", title="Year:", horiz=T, lwd=2, inset=c(0,.03))
 
 # add 1991 line
 newdata <- data.frame(gini=seq(min(data_1991$gini), max(data_1991$gini), length.out=100))
 newdata$pred <- predict(loess(LaplacesDemon::logit(psewage)~gini, span=2, data_1991), newdata)
-with(newdata, lines(x=gini, y=pred, col="red", lwd=3))
+with(newdata, lines(x=gini, y=pred, col=rainbow(3, s=0.65)[1], lwd=3))
 
 # add 2000 line
 newdata <- data.frame(gini=seq(min(data_2000$gini), max(data_2000$gini), length.out=100))
 newdata$pred <- predict(loess(LaplacesDemon::logit(psewage)~gini, span=2, data_2000), newdata)
-with(newdata, lines(x=gini, y=pred, col="green", lwd=3))
+with(newdata, lines(x=gini, y=pred, col=rainbow(3, s=0.65)[2], lwd=3))
 
 # add 2010 line
 newdata <- data.frame(gini=seq(min(data_2010$gini), max(data_2010$gini), length.out=100))
 newdata$pred <- predict(loess(LaplacesDemon::logit(psewage)~gini, span=2, data_2010), newdata)
-with(newdata, lines(x=gini, y=pred, col="blue", lwd=3))
+with(newdata, lines(x=gini, y=pred, col=rainbow(3, s=0.65)[3], lwd=3))
 
 # prep. model
-y <- data$psewage
-time <- data$time; id <- data$id 
+y <- data$psewage; time <- data$time; id <- data$id; state <- data$state
 X <- cbind(as.numeric(time==1), as.numeric(time==1)*data$gini,
            as.numeric(time==2), as.numeric(time==2)*data$gini, as.numeric(time==2)*data$gini^2,
            as.numeric(time==3), as.numeric(time==3)*data$gini)
@@ -87,18 +101,28 @@ round(table,2)
 
 # diagnostic 
 set.seed(3489)
-diag_quant(fit_1, X, 100, n=1)
-diag_quant(fit_1, X, 200, T, T, n=0)
+diag_quant(fit_1, X, 100, n=1, label.id=data$state, label.time=data$time)
+diag_quant(fit_1, X, 200, T, T, n=0, label.id=data$state, label.time=data$time)
 
 # sensitivity 
-sens_conf(fit_1, 4, 1, 4, 1)
+sens_conf(fit_1, 4, 1, 4, 1, label.id=data$state, label.time=data$time)
 
 # show points highlighted
 par(mar=c(5.5,5.5,2,2), mfrow=c(1,1))
-colors <- c("red", "green", "blue")
-plot(data$gini, LaplacesDemon::logit(data$psewage), pch=16, col=colors[data$time], ylab="logit(psewage)", xlab="gini", cex.lab=1.5, cex.axis=1.2, lwd=2, xlim=c(0.48,0.68))
-legend(0.49, -0.6, c("1991", "2000", "2010"), col=colors, cex=1, lwd=2, bty="n")
-identify(x=data$gini, y=LaplacesDemon::logit(data$psewage), label=paste(paste("(",paste(id, time, sep=","), sep=""),")",sep=""), n=3, cex=1.2)
+colors <- rainbow(3, s=0.65)
+plot(data$gini, LaplacesDemon::logit(data$psewage), pch=16, col=colors[time], ylab="logit(psewage)", xlab="gini", cex.lab=1.5, cex.axis=1.2, lwd=2, ylim=c(-5.3,0.8))
+legend("top", col=colors, legend=c("1991", "2000", "2010"), cex=0.8, bty="n", title="Year:", horiz=T, lwd=2, inset=c(0,.03))
+identify(x=data$gini, y=LaplacesDemon::logit(data$psewage), label=paste(paste("(",paste(data$state, data$time, sep=","), sep=""),")",sep=""), n=3, cex=1.2)
+
+# inference remove points
+fit_i <- ulgee(y[!(id==24&time==2)], X[!(id==24&time==2),], time[!(id==24&time==2)], id[!(id==24&time==2)], "EXC", "logit", 1e-6, 40)
+
+# est. 
+round(fit_1$mu.coefs, 2)
+round(diag(fit_1$vcov), 2)
+round(fit_1$pvalues, 4)
+round(fit_1$rho, 2)
+round(fit_1$qic, 2)
 
 # prep position 
 pos <- as.numeric(data$id==3 & data$time==1)
@@ -122,7 +146,8 @@ titles <- c(expression(paste("Sample standardized of ", hat(alpha)[1])),
             expression(paste("Sample standardized of ", hat(beta)[3])))
 par(mar=c(5.5,5.5,2,2), mfrow=c(1,3))
 for(i in 1:7){
+  if(i==7) plot(1, type="n", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
   pcoef_i <- (table[,i]-mean(table[,i]))/sd(table[,i])
-  qqnorm(pcoef_i, xlab="N(0,1) quantile", ylab=titles[i], pch=16, cex.lab=1.5, cex.axis=1.2, main="")
+  qqnorm(pcoef_i, xlab="Quantile of N(0,1)", ylab=titles[i], pch=16, cex.lab=1.8, cex.axis=1.5, main="")
   abline(a=0, b=1, xlab="", ylab="", lty=2, lwd=1)
 }
