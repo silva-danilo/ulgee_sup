@@ -1,6 +1,5 @@
-
-# source ulgee
-#source("R/ulgee.R")
+# load ulgee package
+library(ulgee)
 
 # density function
 par(mar=c(5.5,5.5,2,2), mfrow=c(1,2))
