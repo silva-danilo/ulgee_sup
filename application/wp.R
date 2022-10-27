@@ -1,4 +1,3 @@
-
 # modificate gamlss wp
 wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4, 
                    xcut.points = NULL, overlap = 0, xlim.all = 4, xlim.worm = 3.5, 
@@ -129,9 +128,9 @@ wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4,
     if (any(abs(qq$x) > xlim.all)) {
       warning("Some points are missed out ", "\n", "increase the x limits using xlim.all")
     }
-    plot(qq$x, qq$y, ylab = "Deviation", xlab = "Unit normal quantile", 
+    plot(qq$x, qq$y, ylab = "Deviation", xlab = "Quantile of N(0,1)", 
          xlim = c(-xlim.all, xlim.all), ylim = c(-ylim.all, 
-                                                 ylim.all), cex = cex, pch = pch, bg = bg, cex.lab = cex.lab, cex.axis = 1.2)
+                                                 ylim.all), cex = cex, pch = pch, bg = bg, cex.lab = cex.lab, cex.axis = 1.5)
     lines(z, low, lty = 2)
     lines(z, high, lty = 2)
     if (line == TRUE) {
@@ -293,6 +292,6 @@ random.pos <- function(fit.model, X){
 }
 
 # plots
-wp(resid=fit_1$rq[random.pos(fit_1, X)], pch=16, cex.lab=1.5, lwd=2, xlim.all=2.5)
-wp(resid=fit_1$rq[random.pos(fit_1, X)], pch=16, cex.lab=1.5, lwd=2, xlim.all=2.5)
-wp(resid=fit_1$rq[random.pos(fit_1, X)], pch=16, cex.lab=1.5, lwd=2, xlim.all=2.5)
+wp(resid=fit_1$rq[random.pos(fit_1, X)], pch=16, cex.lab=1.8, lwd=2, xlim.all=2.5)
+wp(resid=fit_1$rq[random.pos(fit_1, X)], pch=16, cex.lab=1.8, lwd=2, xlim.all=2.5)
+wp(resid=fit_1$rq[random.pos(fit_1, X)], pch=16, cex.lab=1.8, lwd=2, xlim.all=2.5)
