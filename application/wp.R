@@ -1,4 +1,4 @@
-# modificate gamlss wp for fit_1
+# modificate gamlss wp (firt run censo.R)
 wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4, 
                    xcut.points = NULL, overlap = 0, xlim.all = 4, xlim.worm = 3.5, 
                    show.given = TRUE, line = TRUE, ylim.all = 12 * sqrt(1/length(resid)), 
