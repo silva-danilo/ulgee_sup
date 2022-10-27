@@ -29,5 +29,5 @@ round(fit_1$pvalues, 4)
 round(fit_1$rho, 2)
 
 # diagnostic
-diag_quant(fit_1, data[,-c(3,4)], 100, n=0)
-diag_quant(fit_1, data[,-c(3,4)], 100, T, T, n=0)
+diag_quant(fit_1, data[,-c(3,4)], 1, n=0, label.id=data[,3], label.time=data[,4])
+diag_quant(fit_1, data[,-c(3,4)], 100, T, T, n=0, label.id=data[,3], label.time=data[,4])
