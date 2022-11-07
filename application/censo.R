@@ -1,8 +1,11 @@
 # load ulgee package
 library(ulgee)
 
+# set directory
+setwd("\home\posmae\danilo.silva\Área de trabalho\application")
+
 # prep. 2010
-data_2010 <- readxl::read_excel("data/censo/censo_2010.xlsx")
+data_2010 <- readxl::read_excel("data/censo_2010.xlsx")
 data_2010 <- data_2010[-c(1,29:31),]
 names(data_2010) <- c("state", "gini", "pwater", "life", "peletro", "psewage", "hdi", "income")
 data_2010$time <- 3
@@ -13,7 +16,7 @@ data_2010$state <- c("AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS"
                      "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO")
 
 # prep. 2000
-data_2000 <- readxl::read_excel("data/censo/censo_2000.xlsx")
+data_2000 <- readxl::read_excel("data/censo_2000.xlsx")
 data_2000 <- data_2000[-c(1,29:31),]
 names(data_2000) <- c("state", "gini", "pwater", "life", "peletro", "psewage", "hdi", "income")
 data_2000$time <- 2
@@ -24,7 +27,7 @@ data_2000$state <- c("AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS"
                      "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO")
 
 # prep. 1991
-data_1991 <- readxl::read_excel("data/censo/censo_1991.xlsx")
+data_1991 <- readxl::read_excel("data/censo_1991.xlsx")
 data_1991 <- data_1991[-c(1,29:31),]
 names(data_1991) <- c("state", "gini", "pwater", "life", "peletro", "psewage", "hdi", "income")
 data_1991$time <- 1
