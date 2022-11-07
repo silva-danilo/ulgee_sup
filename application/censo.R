@@ -64,7 +64,7 @@ text(seq(1, 11, by=1), par("usr")[3]-0.5, xpd=TRUE, labels=c("", "1991", "", "",
 
 # dispersion plot
 colors <- rainbow(3, s=0.65)
-plot(data$gini, LaplacesDemon::logit(data$psewage), pch=16, col=colors[time], ylab="logit(psewage)", xlab="gini", cex.lab=1.5, cex.axis=1.2, lwd=2, ylim=c(-5.3,0.8))
+plot(data$gini, LaplacesDemon::logit(data$psewage), pch=16, col=colors[data$time], ylab="logit(psewage)", xlab="gini", cex.lab=1.5, cex.axis=1.2, lwd=2, ylim=c(-5.3,0.8))
 legend("top", col=colors, legend=c("1991", "2000", "2010"), cex=0.8, bty="n", title="Year:", horiz=T, lwd=2, inset=c(0,.03))
 
 # add 1991 line
@@ -111,7 +111,7 @@ round(table,2)
 # diagnostic 
 set.seed(3489)
 diag_quant(fit_1, X, 100, n=1, label.id=data$state, label.time=data$time)
-diag_quant(fit_1, X, 200, T, T, n=0, label.id=data$state, label.time=data$time)
+diag_quant(fit_1, X, 100, T, T, n=0, label.id=data$state, label.time=data$time)
 
 # sensitivity 
 sens_conf(fit_1, 4, 1, 4, 1, label.id=data$state, label.time=data$time)
