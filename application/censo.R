@@ -52,6 +52,12 @@ FSA::Summarize(psewage ~ time, data)
 
 # box-plot robust
 par(mar=c(5.5,5.5,2,2), mfrow=c(1,2))
+boxplot(LaplacesDemon::logit(data$psewage) ~ time, data, ylab="logit(psewage)", xlab="time", pch=16, cex.lab=1.5, cex.axis=1.2, ylim=c(-5.3,0.8), names=c("1991", "2000", "2010"))
+#boxplot(LaplacesDemon::logit(data$psewage) ~ ginic + time, data, at=c(1:3,5:7,9:11), col=rainbow(3, s=0.65), ylab="logit(psewage)", xlab="time", pch=16, cex.lab=1.5, cex.axis=1.2, ylim=c(-5.3,0.8), xaxt="n")
+#text(seq(1, 11, by=1), par("usr")[3]-0.5, xpd=TRUE, labels=c("", "1991", "", "", "", "2000", "", "", "", "2010"), cex=1.2)
+#legend("top", fill=rainbow(3, s=0.65), legend=c("[0.55,0.62)", "[0.62,0.64)", "[0.64,0.67]"), cex=0.8, bty="n", title="Gini in 1991:", horiz=T, inset=c(0,.03))
+
+par(mar=c(5.5,5.5,2,2), mfrow=c(1,2))
 boxplot(LaplacesDemon::logit(data$psewage) ~ ginic + time, data, at=c(1:3,5:7,9:11), col=rainbow(3, s=0.65), ylab="logit(psewage)", xlab="time", pch=16, cex.lab=1.5, cex.axis=1.2, ylim=c(-5.3,0.8), xaxt="n")
 legend("top", fill=rainbow(3, s=0.65), legend=c("[0.55,0.62)", "[0.62,0.64)", "[0.64,0.67]"), cex=0.8, bty="n", title="Gini in 1991:", horiz=T, inset=c(0,.03))
 text(seq(1, 11, by=1), par("usr")[3]-0.5, xpd=TRUE, labels=c("", "1991", "", "", "", "2000", "", "", "", "2010"), cex=1.2)
