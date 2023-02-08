@@ -2,7 +2,7 @@
 library(ulgee)
 
 # set directory
-setwd("\home\posmae\danilo.silva\Área de trabalho\application")
+#setwd("\home\...\application")
 
 # prep. 2010
 data_2010 <- readxl::read_excel("data/censo_2010.xlsx")
