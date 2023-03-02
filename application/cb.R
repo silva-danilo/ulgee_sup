@@ -1,5 +1,4 @@
-
-# confidence band
+# confidence band (firt run censo.R)
 par(mar=c(5.5,5.5,2,2), mfrow=c(1,3))
 
 # 1991
