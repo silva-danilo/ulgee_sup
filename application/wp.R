@@ -1,14 +1,13 @@
-# modificate gamlss wp (firt run censo.R)
-wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4, 
-                   xcut.points = NULL, overlap = 0, xlim.all = 4, xlim.worm = 3.5, 
-                   show.given = TRUE, line = TRUE, ylim.all = 12 * sqrt(1/length(resid)), 
-                   ylim.worm = 12 * sqrt(n.inter/length(resid)), cex = 1, cex.lab = 1, 
-                   pch = 21, bg = "wheat", col = "red", bar.bg = c(num = "light blue"), 
-                   ...) 
+
+# modificate gamlss wp
+wp <- function(object=NULL, xvar=NULL, resid=NULL, n.inter=4, xcut.points=NULL, 
+               overlap=0, xlim.all=4, xlim.worm=3.5, show.given=TRUE, line=TRUE,
+               ylim.all=12*sqrt(1/length(resid)), cex=1, cex.lab=1, pch=16,
+               ylim.worm=12*sqrt(n.inter/length(resid)), bg="wheat", col="red", 
+               bar.bg=c(num="light blue"), ...) 
 {
-  panel.fun <- function(x, y, col = par("col"), bg = NA, pch = par("pch"), 
-                        cex = par("cex"), col.smooth = "red", span = 2/3, iter = 3, 
-                        ...) {
+  panel.fun <- function(x, y, col=par("col"), bg=NA, pch=par("pch"), 
+                        cex=par("cex"), col.smooth="red", span=2/3, iter=3, ...){
     qq <- as.data.frame(qqnorm(y, plot = FALSE))
     if (any(is.infinite(qq$y))) 
       line <- FALSE
@@ -38,7 +37,8 @@ wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4,
                 "increase the y limits using ylim.worm")
     }
     if (any(abs(qq$x) > xlim.worm)) {
-      warning("Some points are missed out ", "\n", "increase the x limits using xlim.worm")
+      warning("Some points are missed out ", "\n", 
+              "increase the x limits using xlim.worm")
     }
     lines(z, low, lty = 2, lwd = 0.5)
     lines(z, high, lty = 2, lwd = 0.5)
@@ -57,7 +57,8 @@ wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4,
       stop(paste("The interval specified is not a matrix."))
     }
     if (dim(interval)[2] != 2) {
-      stop(paste("The interval specified is not a valid matrix.\nThe number of columns should be equal to 2."))
+      stop(paste("The interval specified is not a valid matrix.\nThe number 
+                 of columns should be equal to 2."))
     }
     crows = dim(interval)[1]
     for (i in 1:(crows - 1)) {
@@ -74,8 +75,8 @@ wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4,
     }
     if (any((xcut.points < min(xvar)) | any(xcut.points > 
                                             max(xvar)))) {
-      stop(paste("The specified `xcut.points' are not within the range of the x: (", 
-                 min(xvar), " , ", max(xvar), ")"))
+      stop(paste("The specified `xcut.points' are not within the range of the 
+                 x: (", min(xvar), " , ", max(xvar), ")"))
     }
     extra <- (max(xvar) - min(xvar))/1e+05
     int <- c(min(xvar), xcut.points, (max(xvar) + 2 * extra))
@@ -94,8 +95,8 @@ wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4,
     expr
   }
   if (is.null(object) && is.null(resid)) 
-    stop(paste("A fitted object with resid() method or the argument resid should be used ", 
-               "\n", ""))
+    stop(paste("A fitted object with resid() method or the argument resid should
+               be used ", "\n", ""))
   resid <- if (is.null(object)) 
     resid
   else resid(object)
@@ -123,14 +124,17 @@ wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4,
     low <- qnorm((1 - level)/2) * se
     high <- -low
     if (any(abs(qq$y) > ylim.all)) {
-      warning("Some points are missed out ", "\n", "increase the y limits using ylim.all")
+      warning("Some points are missed out ", "\n", "increase the y limits using 
+              ylim.all")
     }
     if (any(abs(qq$x) > xlim.all)) {
-      warning("Some points are missed out ", "\n", "increase the x limits using xlim.all")
+      warning("Some points are missed out ", "\n", "increase the x limits using 
+              xlim.all")
     }
     plot(qq$x, qq$y, ylab = "Deviation", xlab = "Quantile of N(0,1)", 
          xlim = c(-xlim.all, xlim.all), ylim = c(-ylim.all, 
-                                                 ylim.all), cex = cex, pch = pch, bg = bg, cex.lab = cex.lab, cex.axis = 1.5)
+                                                 ylim.all), cex = cex, pch = pch,
+         bg = bg, cex.lab = cex.lab, cex.axis = 1.5)
     lines(z, low, lty = 2)
     lines(z, high, lty = 2)
     if (line == TRUE) {
@@ -164,12 +168,14 @@ wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4,
     x.x <- resid
     coplot(y.y ~ x.x | xvar, given.values = given.in, panel = panel.fun, 
            ylim = c(-ylim.worm, ylim.worm), xlim = c(-xlim.worm, 
-                                                     xlim.worm), ylab = "Deviation", xlab = "Unit normal quantile", 
+                                                     xlim.worm), 
+           ylab = "Deviation", xlab = "Unit normal quantile", 
            show.given = show.given, bg = bg, pch = pch, cex = cex, 
            bar.bg = bar.bg)
     if (overlap == 0) {
       if (total.points != length(resid)) 
-        warning("the total number of points in the plot is not equal \n to the number of observations in y \n")
+        warning("the total number of points in the plot is not equal \n to the 
+                number of observations in y \n")
     }
     mcoef <- matrix(coef, ncol = 4, byrow = TRUE)
     out <- list(classes = given.in, coef = mcoef)
@@ -187,7 +193,8 @@ wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4,
       coplot(as.formula(paste("y.y~x.x|", as.character(xvar), 
                               sep = "")[2]), data = DaTa, panel = panel.fun, 
              overlap = overlap, number = n.inter, ylim = c(-ylim.worm, 
-                                                           ylim.worm), xlim = c(-xlim.worm, xlim.worm), 
+                                                           ylim.worm), 
+             xlim = c(-xlim.worm, xlim.worm), 
              ylab = "Deviation", xlab = "Unit normal quantile", 
              show.given = show.given, bg = bg, pch = pch, 
              cex = cex, bar.bg = bar.bg, ...)
@@ -230,7 +237,7 @@ wp <- function (object = NULL, xvar = NULL, resid = NULL, n.inter = 4,
     }
     else {
       coplot(as.formula(paste("y.y~x.x|", as.character(xvar), 
-                              sep = "")[2]), panel = panel.fun, overlap = overlap, 
+                              sep = "")[2]), panel = panel.fun, overlap=overlap, 
              number = n.inter, ylim = c(-ylim.worm, ylim.worm), 
              xlim = c(-xlim.worm, xlim.worm), ylab = "Deviation", 
              xlab = "Unit normal quantile", show.given = show.given, 
@@ -292,6 +299,9 @@ random.pos <- function(fit.model, X){
 }
 
 # plots
-wp(resid=fit_1$rq[random.pos(fit_1, X)], pch=16, cex.lab=1.8, lwd=2, xlim.all=2.5)
-wp(resid=fit_1$rq[random.pos(fit_1, X)], pch=16, cex.lab=1.8, lwd=2, xlim.all=2.5)
-wp(resid=fit_1$rq[random.pos(fit_1, X)], pch=16, cex.lab=1.8, lwd=2, xlim.all=2.5)
+set.seed(6666)
+set.seed(1245)
+set.seed(9999)
+wp(resid=fit_1$rq[random.pos(fit_1, X)], cex.lab=1.8, lwd=2, xlim.all=2.5)
+wp(resid=fit_1$rq[random.pos(fit_1, X)], cex.lab=1.8, lwd=2, xlim.all=2.5)
+wp(resid=fit_1$rq[random.pos(fit_1, X)], cex.lab=1.8, lwd=2, xlim.all=2.5)
