@@ -1,6 +1,5 @@
-
-# source ulgee
-#source("R/ulgee.R")
+# load ulgee package
+library(ulgee)
 
 # data UNS generate
 set.seed(2398)
@@ -35,4 +34,3 @@ diag_quant(fit_1, data[,-c(3,4)], 1, n=0, label.id=data[,3],
            label.time=data[,4])
 diag_quant(fit_1, data[,-c(3,4)], 100, T, T, n=0, label.id=data[,3], 
            label.time=data[,4])
-
