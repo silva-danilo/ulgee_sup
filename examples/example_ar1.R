@@ -1,6 +1,5 @@
-
-# source ulgee
-#source("R/ulgee.R")
+# load ulgee package
+library(ulgee)
 
 # data AR1 generate
 set.seed(4379)
